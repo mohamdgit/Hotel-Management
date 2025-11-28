@@ -1,0 +1,15 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <RootNamespace>Hotel_Management.ServiceImplementiton</RootNamespace>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Hotel Management.DOMAIN\Hotel Management.DOMAIN.csproj" />
+    <ProjectReference Include="..\Hotel Management.ServiceAbstraction\Hotel Management.ServiceAbstraction.csproj" />
+  </ItemGroup>
+
+</Project>
