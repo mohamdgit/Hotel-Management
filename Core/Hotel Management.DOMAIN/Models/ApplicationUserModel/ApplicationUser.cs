@@ -17,11 +17,12 @@ namespace Hotel_Management.DOMAIN.Models.ApplicationUserModel
         public string Lname { get; set; } = null!;
         public int Age { get; set; }
         [InverseProperty("Manager")]
-        public virtual Hotel? ManagedHotel { get; set; }
+        public  Hotel? ManagedHotel { get; set; }
         [InverseProperty("Users")]
-        public virtual ICollection<Review>? reviews { get; set; } = new HashSet<Review>();
+        public  ICollection<Review>? reviews { get; set; } = new HashSet<Review>();
         [InverseProperty("User")]
-        public virtual ICollection<Book>? Books { get; set; } = new HashSet<Book>();
+        public  ICollection<Book>? Books { get; set; } = new HashSet<Book>();
+        public bool IsBlocked { get; set; }
 
     }
 }

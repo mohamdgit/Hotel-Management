@@ -13,7 +13,15 @@ namespace Hotel_Management.Persistance.Configuraitons.HotelConfigurations
     {
         public void Configure(EntityTypeBuilder<HotelFeatures> builder)
         {
-            builder.HasOne(p => p.Feature).WithMany(p => p.HotelFeatures).HasForeignKey(p => p.FeatureId).OnDelete(DeleteBehavior.NoAction);
+            builder.HasOne(p => p.Feature)
+                .WithMany(p => p.HotelFeatures)
+                .HasForeignKey(p => p.FeatureId)
+                .OnDelete(DeleteBehavior.NoAction);
+
+            builder.HasOne(p => p.HotelOfFeatures)
+               .WithMany(h => h.Hotel_Features)
+               .HasForeignKey(p => p.HotelId)
+               .OnDelete(DeleteBehavior.NoAction);
 
         }
     }

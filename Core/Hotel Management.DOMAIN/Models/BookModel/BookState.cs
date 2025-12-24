@@ -8,8 +8,12 @@ namespace Hotel_Management.DOMAIN.Models.BookModel
 {
     public enum BookState
     {
-        Pendding=1,
-        Refused=2,
-        done=3
+        Pending = 1,       
+        Confirmed = 2,     
+        CheckedIn = 3,     
+        CheckedOut = 4,    
+        Refused = 5,       
+        Cancelled = 6,     
+        NoShow = 7         
     }
 }

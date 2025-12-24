@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Hotel_Management.DOMAIN.Models.BaseEntity;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
@@ -7,18 +8,18 @@ using System.Threading.Tasks;
 
 namespace Hotel_Management.DOMAIN.Models.HotelModel
 {
-    public class HotelFeatures
+    public class HotelFeatures  
     {
     
-        public int? FeatureId { get; set; }
+        public int FeatureId { get; set; }
        
-        public int? HotelId { get; set; }
+        public int HotelId { get; set; }
         [ForeignKey("HotelId")]
         [InverseProperty("Hotel_Features")]
-        public virtual Hotel? HotelOfFeatures { get; set; } = null!;
+        public  Hotel HotelOfFeatures { get; set; } = null!;
         [ForeignKey("FeatureId")]
         [InverseProperty("HotelFeatures")]
-        public virtual Feature? Feature { get; set; } = null!;
+        public  Feature Feature { get; set; } = null!;
 
 
     }

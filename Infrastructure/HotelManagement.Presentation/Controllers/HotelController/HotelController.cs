@@ -1,0 +1,53 @@
+﻿using Hotel_Management.ServiceAbstraction.ServiceManager;
+using Hotel_Management.Shared.DTOs.Hotel.HotelDtos;
+using Hotel_Management.Shared.ProductQueryParam;
+using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Hotel_Management.Presentation.Controllers.HotelController
+{
+    [ApiController]
+    [Route("api/{Controller}")]
+    public class HotelController(IServiceManager service):ControllerBase
+    {
+        [HttpGet("GetallHotels")]
+
+        public  ActionResult<IEnumerable<HotelDto>> GetallHotels()
+        {
+           var res=  service.serviceOfHotel.GetallHotelsAsync();
+            return Ok(res);
+        }
+        [HttpGet("Gethotel/{Id}")]
+
+        public async Task<ActionResult<HotelDto>> GetHotelByID(int Id)
+        {
+            var res = await service.serviceOfHotel.GetHotelByIdAsync(Id);
+            return Ok(res);
+        }
+        [HttpPost("AddHotel")]
+
+        public async Task<ActionResult<HotelDto>> AddHotel([FromBody] AddHotelDto hotel)
+        {
+            var res = await service.serviceOfHotel.AddHotelAsync(hotel);
+            return Ok(res);
+        }
+        [HttpPut("UpdateHotel")]
+
+        public async Task<ActionResult<HotelDto>> UpdateHotel([FromQuery] int id , [FromQuery]  AddHotelDto dto)
+         { 
+             var res = await service.serviceOfHotel.UpdateHotel(id,dto);
+              return Ok(res);
+         }
+        [HttpDelete("DeleteHotel{id}")]
+
+        public async Task<ActionResult<int>> DeleteHotel(int id)
+        {
+            var res = await service.serviceOfHotel.deleteHotel(id);
+            return Ok(res);
+        }
+    }
+}

@@ -13,8 +13,16 @@ namespace Hotel_Management.Persistance.Configuraitons.RoomConfigurtions
     {
         public void Configure(EntityTypeBuilder<Room> builder)
         {
-            builder.HasOne(p => p.HotelofRoom).WithMany(p => p.HotelRooms).HasForeignKey(p => p.Hotelid).OnDelete(DeleteBehavior.NoAction);
+            builder.HasOne(r => r.Hotel)
+                   .WithMany(h => h.HotelRooms)
+                   .HasForeignKey(r => r.HotelId)
+                   .OnDelete(DeleteBehavior.NoAction);
 
+            
+            builder.HasOne(r => r.RoomType)
+                   .WithMany(rt => rt.Rooms)
+                   .HasForeignKey(r => r.RoomTypeId)
+                   .OnDelete(DeleteBehavior.NoAction);
         }
     }
 }

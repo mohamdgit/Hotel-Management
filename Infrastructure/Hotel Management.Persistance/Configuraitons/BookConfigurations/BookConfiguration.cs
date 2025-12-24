@@ -13,13 +13,21 @@ namespace Hotel_Management.Persistance.Configuraitons.BookConfigurations
     {
         public void Configure(EntityTypeBuilder<Book> builder)
         {
-            builder.HasOne(p => p.RoomBooked).WithOne(p => p.BookOfTheRoom).HasForeignKey<Book>(p => p.RoomId)
-                .OnDelete(DeleteBehavior.NoAction);
-            builder.HasOne(p => p.User).WithMany(p => p.Books).HasForeignKey(p => p.UserId)
-                .OnDelete(DeleteBehavior.NoAction);
-            builder.HasMany(p => p.ReviewBook).WithOne(p => p.BookReview)
-               .OnDelete(DeleteBehavior.NoAction);
+            builder.HasOne(p => p.RoomBooked)
+                 .WithMany(p => p.Bookings)
+                 .HasForeignKey(p => p.RoomId)
+                 .OnDelete(DeleteBehavior.NoAction);
 
+            builder.HasOne(p => p.User)
+                   .WithMany(p => p.Books)
+                   .HasForeignKey(p => p.UserId)
+                   .OnDelete(DeleteBehavior.NoAction);
+
+            // 👇 أهم تعديل هنا: تحديد الـ FK
+            builder.HasMany(p => p.ReviewBook)
+                   .WithOne(p => p.BookReview)
+                   .HasForeignKey(p => p.Bookid)
+                   .OnDelete(DeleteBehavior.NoAction);
         }
     }
 }

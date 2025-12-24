@@ -1,4 +1,5 @@
-﻿using Hotel_Management.DOMAIN.Models.BookModel;
+﻿using Hotel_Management.DOMAIN.Models.BaseEntity;
+using Hotel_Management.DOMAIN.Models.BookModel;
 using Hotel_Management.DOMAIN.Models.HotelModel;
 using Hotel_Management.DOMAIN.Models.ReviewsModel;
 using System;
@@ -10,24 +11,33 @@ using System.Threading.Tasks;
 
 namespace Hotel_Management.DOMAIN.Models.RoomModel
 {
-    public class Room
+    public class Room : BaseEntity<int>
     {
-        public int Id { get; set; }
         public int Num { get; set; }
         public State RoomState { get; set; }
-        public RoomType Roomtype { get; set; }
-        public int RoomCapacity { get; set; }
-        
-        public int Hotelid { get; set; }
-        [ForeignKey("Hotelid")]
+
+        public int RoomTypeId { get; set; }
+
+        [ForeignKey(nameof(RoomTypeId))]
+        public  RoomType RoomType { get; set; }
+
+          public decimal PricePerNight { get; set; }
+
+        public int HotelId { get; set; }
+
+        [ForeignKey("HotelId")]
         [InverseProperty("HotelRooms")]
-        public virtual Hotel HotelofRoom { get; set; }
+        public  Hotel Hotel { get; set; }
 
         [InverseProperty("RoomBooked")]
-        public virtual Book? BookOfTheRoom { get; set; }
+        public  ICollection<Book>? Bookings { get; set; } = new HashSet<Book>();
 
         [InverseProperty("Room")]
-        public virtual ICollection<RoomPhoto>? Roomofphotos { get; set; } = new HashSet<RoomPhoto>();
-        
+        public  ICollection<RoomPhoto> Photos { get; set; } = new HashSet<RoomPhoto>();
+
+        [InverseProperty("Room")]
+        public  ICollection<Review>? Reviews { get; set; } = new HashSet<Review>();
     }
+
 }
+

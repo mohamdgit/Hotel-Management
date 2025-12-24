@@ -16,7 +16,7 @@ using System.Threading.Tasks;
 
 namespace Hotel_Management.DOMAIN.Contexts.HotelContext
 {
-    public class HotelContext: IdentityDbContext<ApplicationUser,IdentityRole<Guid>, Guid>
+    public class HotelContext: IdentityDbContext<ApplicationUser, IdentityRole<Guid>, Guid>
     {
         public HotelContext(DbContextOptions options) : base(options)
         {

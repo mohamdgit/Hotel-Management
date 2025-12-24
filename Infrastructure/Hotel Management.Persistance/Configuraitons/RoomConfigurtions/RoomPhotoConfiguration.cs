@@ -13,7 +13,7 @@ namespace Hotel_Management.Persistance.Configuraitons.RoomConfigurtions
     {
         public void Configure(EntityTypeBuilder<RoomPhoto> builder)
         {
-            builder.HasOne(p => p.Room).WithMany(p => p.Roomofphotos).HasForeignKey(p => p.RoomId).OnDelete(DeleteBehavior.NoAction);
+            builder.HasOne(p => p.Room).WithMany(p => p.Photos).HasForeignKey(p => p.RoomId).OnDelete(DeleteBehavior.NoAction);
         }
     }
 }

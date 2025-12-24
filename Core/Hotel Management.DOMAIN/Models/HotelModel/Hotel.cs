@@ -1,4 +1,6 @@
 ﻿using Hotel_Management.DOMAIN.Models.ApplicationUserModel;
+using Hotel_Management.DOMAIN.Models.BaseEntity;
+using Hotel_Management.DOMAIN.Models.BookModel;
 using Hotel_Management.DOMAIN.Models.ReviewsModel;
 using Hotel_Management.DOMAIN.Models.RoomModel;
 using System;
@@ -10,30 +12,52 @@ using System.Threading.Tasks;
 
 namespace Hotel_Management.DOMAIN.Models.HotelModel
 {
-    public class Hotel
+    public class Hotel : BaseEntity<int>
     {
-        public int Id { get; set; }
-        public String Name{ get; set; }
+        public string Name { get; set; }
         public decimal Rate { get; set; }
-        public String Description { get; set; } = null!;
-        public String Phone { get; set; } = null!;
-        public String Location { get; set; } = null!;
-       
+        public string Description { get; set; } = null!;
+        public string Phone { get; set; } = null!;
+        public string Location { get; set; } = null!;
+
+        // -----------------------------
+        // Manager
+        // -----------------------------
         public Guid managerId { get; set; }
+
         [ForeignKey("managerId")]
         [InverseProperty("ManagedHotel")]
-        public virtual ApplicationUser Manager { get; set; }
+        public  ApplicationUser Manager { get; set; } = null!;
+
+        // -----------------------------
+        // Photos
+        // -----------------------------
         [InverseProperty("Hotelsofphotos")]
-        public virtual ICollection<HotelPhotos>? Photos { get; set; } = new HashSet<HotelPhotos>();
+        public  ICollection<HotelPhotos> Photos { get; set; } = new HashSet<HotelPhotos>();
+
+        // -----------------------------
+        // Features
+        // -----------------------------
         [InverseProperty("HotelOfFeatures")]
-        public virtual ICollection<HotelFeatures> Hotel_Features { get; set; } = new HashSet<HotelFeatures>();
-        [InverseProperty("HotelofRoom")]
-        public virtual ICollection<Room>? HotelRooms { get; set; } = new HashSet<Room>();
+        public  ICollection<HotelFeatures> Hotel_Features { get; set; } = new HashSet<HotelFeatures>();
 
+        // -----------------------------
+        // Rooms
+        // -----------------------------
+        [InverseProperty("Hotel")]
+        public  ICollection<Room> HotelRooms { get; set; } = new HashSet<Room>();
 
+        // -----------------------------
+        // Reviews
+        // -----------------------------
+        [InverseProperty("Hotel")]
+        public  ICollection<Review>? Reviews { get; set; } = new HashSet<Review>();
 
-
-
-
+        // -----------------------------
+        // Bookings
+        // -----------------------------
+        [InverseProperty("Hotel")]
+        public  ICollection<Book>? Bookings { get; set; } = new HashSet<Book>();
     }
+
 }

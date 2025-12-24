@@ -1,7 +1,10 @@
 ﻿using Hotel_Management.DOMAIN.Models.ApplicationUserModel;
+using Hotel_Management.DOMAIN.Models.BaseEntity;
+using Hotel_Management.DOMAIN.Models.HotelModel;
 using Hotel_Management.DOMAIN.Models.PaymentModel;
 using Hotel_Management.DOMAIN.Models.ReviewsModel;
 using Hotel_Management.DOMAIN.Models.RoomModel;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -11,27 +14,55 @@ using System.Threading.Tasks;
 
 namespace Hotel_Management.DOMAIN.Models.BookModel
 {
-    public class Book
+    public class Book : BaseEntity<int>
     {
-        public int Id { get; set; }
         public BookState Bookstate { get; set; }
-        public int NumOfDays { get; set; }
         public DateTime Fromdate { get; set; }
         public DateTime Todate { get; set; }
+        public DateTime ExpiresAt { get; set; }
+
+        /********************************************/
+        // 1) User (One User → Many Books)
+        /********************************************/
         public Guid UserId { get; set; }
+
         [ForeignKey("UserId")]
         [InverseProperty("Books")]
-        public virtual ApplicationUser User { get; set; }
+        public  ApplicationUser User { get; set; }
+
+        /********************************************/
+        // 2) Room (One Room → Many Bookings)
+        /********************************************/
         public int RoomId { get; set; }
+
         [ForeignKey("RoomId")]
-        [InverseProperty("BookOfTheRoom")]
-        public virtual Room RoomBooked { get; set; }
-     
+        [InverseProperty("Bookings")]
+        public  Room RoomBooked { get; set; }
+
+        /********************************************/
+        // 3) Reviews (One Book → Many Reviews)
+        /********************************************/
         [InverseProperty("BookReview")]
-        public virtual ICollection<Review>? ReviewBook { get; set; } = new HashSet<Review>();
+        public  ICollection<Review>? ReviewBook { get; set; } = new HashSet<Review>();
+
+        /********************************************/
+        // 4) Hotel (One Hotel → Many Bookings)
+        /********************************************/
+        public int HotelId { get; set; }
+
+        [ForeignKey("HotelId")]
+        [InverseProperty("Bookings")]
+        public  Hotel Hotel { get; set; }
+
+        /********************************************/
+        // 5) Payment (One Book → One Payment)
+        /********************************************/
         [InverseProperty(nameof(Payement.PaymentBook))]
-        public virtual Payement? BookPayment { get; set; }
+        public  Payement? BookPayment { get; set; }
 
-
+        /********************************************/
+        public bool IsCanceled { get; set; }
+        public bool IsDeleted { get; set; }
     }
+
 }

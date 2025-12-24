@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Hotel_Management.DOMAIN.Models.RoomModel
 {
-    public class RoomPhoto
+    public class RoomPhoto 
     {
         public int Id { get; set; }
         public string Url { get; set; } = null!;
@@ -16,7 +16,7 @@ namespace Hotel_Management.DOMAIN.Models.RoomModel
        
         public int RoomId { get; set; }
         [ForeignKey("RoomId")]
-        [InverseProperty("Roomofphotos")]
-        public virtual Room Room { get; set; } = null!;
+        [InverseProperty("Photos")]
+        public  Room Room { get; set; } = null!;
     }
 }
