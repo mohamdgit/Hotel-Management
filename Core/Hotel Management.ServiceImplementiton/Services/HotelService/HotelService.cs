@@ -21,7 +21,7 @@ namespace Hotel_Management.ServiceImplementiton.Services.HotelService
     {
         private readonly IUow uow;
         private readonly IMapper mapp;
-        private readonly IPhotoService photoservice;
+        private readonly IPhotoRoomService photoservice;
 
         public HotelService(IUow uow,IMapper mapp)
         {

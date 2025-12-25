@@ -2,8 +2,10 @@
 using Hotel_Management.DOMAIN.Contracts.HotelFeatureRepo;
 using Hotel_Management.DOMAIN.Contracts.IUow;
 using Hotel_Management.DOMAIN.Models.ApplicationUserModel;
+using Hotel_Management.ServiceAbstraction.IRoomTypeService;
 using Hotel_Management.ServiceAbstraction.IserviceOfAuthentication;
 using Hotel_Management.ServiceAbstraction.IserviceOfHotel;
+using Hotel_Management.ServiceAbstraction.RoomService;
 using Hotel_Management.ServiceAbstraction.ServiceManager;
 using Hotel_Management.ServiceImplementiton.Services.HotelService;
 using Hotel_Management.ServiceImplementiton.Services.ServiceOfAuthentication;
@@ -35,7 +37,14 @@ namespace Hotel_Management.ServiceImplementiton.Services.ServiceManager
         private readonly Lazy<IReviewService> ReviewsService = new Lazy<IReviewService>(() => new ReviewService.ReviewService(uow, mapper));
         public IReviewService ReviewService => ReviewsService.Value;
 
-        private readonly Lazy<IPhotoService> PhotoServicelazy = new Lazy<IPhotoService>(() => new PhotoService (uow , mapper , httpContext));
+        private readonly Lazy<IPhotoService> PhotoServicelazy = new Lazy<IPhotoService>(() => new PhotoService(uow , mapper , httpContext));
         public IPhotoService PhotoService => PhotoServicelazy.Value;
+
+        private readonly Lazy<IRoomTypeService> RoomTypeServicelazy = new Lazy<IRoomTypeService>(() => new RoomTypeService.RoomTypeService(uow, mapper));
+        public IRoomTypeService RoomTypeService => RoomTypeServicelazy.Value;
+        private readonly Lazy<IPhotoRoomService> PhotoRoomServicelazy = new Lazy<IPhotoRoomService>(() => new PhotoRoomService(uow, mapper, httpContext));
+        public IPhotoRoomService PhotoRoomService => PhotoRoomServicelazy.Value;
+        private readonly Lazy<IRoomService> RoomServicelazy = new Lazy<IRoomService>(() => new RoomService.RoomService(uow, mapper, httpContext));
+        public IRoomService RoomService => RoomServicelazy.Value;
     }
 }

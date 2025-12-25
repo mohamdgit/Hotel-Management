@@ -1,4 +1,5 @@
 ﻿using Hotel_Management.ServiceAbstraction.IserviceOfHotel;
+using Hotel_Management.ServiceAbstraction.RoomService;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,7 +16,11 @@ namespace Hotel_Management.ServiceAbstraction.ServiceManager
         public IHotelFeatureService serviceOfHotelFeature { get; }
         public IReviewService ReviewService { get; }
         public IPhotoService PhotoService { get; }
+        public IPhotoRoomService PhotoRoomService { get; }
 
+
+        public IRoomService RoomService { get; }
+        public IRoomTypeService.IRoomTypeService RoomTypeService { get; }
 
 
 

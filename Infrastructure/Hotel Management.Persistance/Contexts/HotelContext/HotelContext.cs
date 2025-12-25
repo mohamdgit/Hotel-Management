@@ -31,11 +31,14 @@ namespace Hotel_Management.DOMAIN.Contexts.HotelContext
         public DbSet<ApplicationUser> Users { get; set; } = null!;
         public DbSet<Hotel> Hotels { get; set; } = null!;
         public DbSet<HotelPhotos> HotelPhotos { get; set; } = null!;
+
         public DbSet<Feature> Features { get; set; } = null!;
         public DbSet<HotelFeatures> HotelFeatures { get; set; } = null!;
         public DbSet<Book> Books { get; set; } = null!;
         public DbSet<Review> Reviews { get; set; } = null!;
         public DbSet<Room> Rooms { get; set; } = null!;
+        public DbSet<RoomType> RoomsTypes { get; set; } = null!;
+
         public DbSet<Payement> Payements { get; set; } = null!;
 
         public DbSet<RoomPhoto> RoomPhotoss { get; set; } = null!;

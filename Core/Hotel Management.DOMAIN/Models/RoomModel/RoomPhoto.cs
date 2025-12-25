@@ -1,4 +1,5 @@
-﻿using Hotel_Management.DOMAIN.Models.HotelModel;
+﻿using Hotel_Management.DOMAIN.Models.BaseEntity;
+using Hotel_Management.DOMAIN.Models.HotelModel;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -8,9 +9,9 @@ using System.Threading.Tasks;
 
 namespace Hotel_Management.DOMAIN.Models.RoomModel
 {
-    public class RoomPhoto 
+    public class RoomPhoto :BaseEntity<int>
     {
-        public int Id { get; set; }
+        
         public string Url { get; set; } = null!;
         public decimal Size { get; set; }
        

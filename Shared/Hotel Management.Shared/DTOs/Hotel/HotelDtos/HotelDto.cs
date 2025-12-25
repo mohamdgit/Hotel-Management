@@ -2,7 +2,7 @@
 using Hotel_Management.Shared.DTOs.Hotel.HotelFeaturesDtos;
 using Hotel_Management.Shared.DTOs.Hotel.HotelPhotoDtos;
 using Hotel_Management.Shared.DTOs.ReviewsDtos;
-using Hotel_Management.Shared.DTOs.RoomDtos;
+using Hotel_Management.Shared.DTOs.RoomDtos.Room;
 
 namespace Hotel_Management.Shared.DTOs.Hotel.HotelDtos
 {
@@ -17,7 +17,7 @@ namespace Hotel_Management.Shared.DTOs.Hotel.HotelDtos
         public Guid ManagerId { get; set; }
         public List<HotelPhotoDto> Photos { get; set; } = new List<HotelPhotoDto>();
         public List<FeaturesDto> Features { get; set; } = new List<FeaturesDto>();
-        public List<RoomDto> HotelRooms { get; set; } = new List<RoomDto>();
+        public List<RoomListDto> HotelRooms { get; set; } = new List<RoomListDto>();
         public List<ReviewDto> Reviews { get; set; } = new List<ReviewDto>();
 
         
