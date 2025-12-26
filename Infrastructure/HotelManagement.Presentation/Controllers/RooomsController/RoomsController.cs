@@ -1,6 +1,7 @@
 ﻿using Hotel_Management.ServiceAbstraction.RoomService;
 using Hotel_Management.Shared.DTOs.RoomDtos.Room;
 using Hotel_Management.Shared.DTOs.RoomDtos.RoomTypes;
+using Hotel_Management.Shared.ProductQueryParam;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -25,9 +26,9 @@ public class RoomsController : ControllerBase
     }
 
     [HttpGet("specification")]
-    public IActionResult GetRoomsSpecification()
+    public IActionResult GetRoomsSpecification(itemsQueryParam?param)
     {
-        var rooms = _roomService.GtRoomsSpecification();
+        var rooms = _roomService.GtRoomsSpecification(param);
         return Ok(rooms);
     }
 

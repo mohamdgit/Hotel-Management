@@ -12,6 +12,8 @@ namespace Hotel_Management.ServiceAbstraction.IserviceOfHotel
     public interface IHotelService
     {
         public  IEnumerable<HotelDto>GetallHotelsAsync();
+        public IEnumerable<HotelDto> GetallHotelspecAsync(itemsQueryParam? param);
+
 
         public Task<HotelDto> GetHotelByIdAsync(int Id);
 

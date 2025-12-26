@@ -48,13 +48,22 @@ namespace Hotel_Management.ServiceImplementiton.Services.HotelService
         }
 
         
-        public   IEnumerable<HotelDto> GetallHotelsAsync()
+        public   IEnumerable<HotelDto> GetallHotelspecAsync(itemsQueryParam? param)
         {
             var repo = uow.GenerateRepo<Hotel, int>();
-            var spec = new HotelSpecification();
+            var spec = new HotelSpecification(param);
             var query =  repo.GetAllSpecificationAsync(spec).ToList();
             var res = mapp.Map<IEnumerable<Hotel>, IEnumerable<HotelDto>>(query);
             
+            return res;
+        }
+
+        public IEnumerable<HotelDto> GetallHotelsAsync()
+        {
+            var repo = uow.GenerateRepo<Hotel, int>();
+            var query = repo.GetAllAsync().ToList();
+            var res = mapp.Map<IEnumerable<Hotel>, IEnumerable<HotelDto>>(query);
+
             return res;
         }
 

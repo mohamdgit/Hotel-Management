@@ -1,6 +1,7 @@
 ﻿using Hotel_Management.ServiceAbstraction.ServiceManager;
 using Hotel_Management.Shared.DTOs.Hotel.HotelFeaturesDtos;
 using Hotel_Management.Shared.DTOs.ReviewsDtos;
+using Hotel_Management.Shared.ProductQueryParam;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -42,18 +43,32 @@ namespace Hotel_Management.Presentation.Controllers.ReviewsController
             var res = await service.ReviewService.updateReviewById(dto);
             return Ok(res);
         }
-        [HttpGet("GetHotelReviews/{id}")]
+        [HttpGet("GetHotelReviews")]
 
         public  ActionResult<IEnumerable<ReviewDto>> GetReviews(int id)
         {
             var res =  service.ReviewService.GetReviewOfHotels(id);
             return Ok(res);
         }
-        [HttpGet("GetroomReviews/{id}")]
+        [HttpGet("HotelRevspec")]
+
+        public ActionResult<IEnumerable<ReviewDto>> GetReviewswithspec(int id,itemsQueryParam?param)
+        {
+            var res = service.ReviewService.GetReviewOfHotelswithspec(id, param);
+            return Ok(res);
+        }
+        [HttpGet("GetroomReviews")]
 
         public  ActionResult<IEnumerable<ReviewDto>> GetroomReviews(int id)
         {
             var res =  service.ReviewService.GetReviewOfRooms(id);
+            return Ok(res);
+        }
+        [HttpGet("RoomRevspec")]
+
+        public ActionResult<IEnumerable<ReviewDto>> GetroomReviewswithspec(int id, itemsQueryParam? param)
+        {
+            var res = service.ReviewService.GetReviewOfRoomswithspec(id, param);
             return Ok(res);
         }
         [HttpGet("GetReview/{id}")]

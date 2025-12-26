@@ -12,10 +12,11 @@ namespace Hotel_Management.ServiceImplementiton.Specification
 {
     public class BaseSpecification<entity, key> : ISpecification<entity, key> where entity : BaseEntity<key>
     {
-        public BaseSpecification()
+        public BaseSpecification(Expression<Func<entity, bool>> Creteria)
         {
-            
-           
+            this.Creteria = Creteria;
+
+
         }
 
         public Expression<Func<entity, bool>> Creteria { get; private set; }

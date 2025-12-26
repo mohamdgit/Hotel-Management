@@ -1,4 +1,5 @@
 ﻿using Hotel_Management.Shared.DTOs.ReviewsDtos;
+using Hotel_Management.Shared.ProductQueryParam;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,8 +19,8 @@ namespace Hotel_Management.ServiceAbstraction.IserviceOfHotel
 
         public Task<int> updateReviewById(UpdateRoomReviewDto dto);
         public Task<int> DeleteReviewById(int Id);
-
-
+        public IEnumerable<ReviewDto> GetReviewOfHotelswithspec(int Hotelid, itemsQueryParam? param);
+        public IEnumerable<ReviewDto> GetReviewOfRoomswithspec(int Roomid, itemsQueryParam? param);
 
 
     }

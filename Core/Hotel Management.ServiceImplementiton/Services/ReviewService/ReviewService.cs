@@ -4,7 +4,10 @@ using Hotel_Management.DOMAIN.Models.BookModel;
 using Hotel_Management.DOMAIN.Models.HotelModel;
 using Hotel_Management.DOMAIN.Models.ReviewsModel;
 using Hotel_Management.ServiceAbstraction.IserviceOfHotel;
+using Hotel_Management.ServiceImplementiton.Specification;
+using Hotel_Management.Shared.DTOs.Hotel.HotelDtos;
 using Hotel_Management.Shared.DTOs.ReviewsDtos;
+using Hotel_Management.Shared.ProductQueryParam;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -88,7 +91,6 @@ namespace Hotel_Management.ServiceImplementiton.Services.ReviewService
 
             return await uow.SaveChanges();
         }
-
         public async Task<ReviewDto> GetReviewById(int Id)
         {
             var reviewRepo = uow.GenerateRepo<Review, int>();
@@ -115,6 +117,19 @@ namespace Hotel_Management.ServiceImplementiton.Services.ReviewService
 
             return mapp.Map<IEnumerable< Review>,IEnumerable< ReviewDto>>(rev).ToList() ;
         }
+        public IEnumerable<ReviewDto> GetReviewOfHotelswithspec(int Hotelid, itemsQueryParam? param)
+        {
+            var reviewRepo = uow.GenerateRepo<Review, int>();
+            var spec = new ReviewSpecification(param);
+
+            var review = reviewRepo.GetAllSpecificationAsync(spec);
+
+            var rev = review.Where(p => p.HotelId == Hotelid);
+
+
+
+            return mapp.Map<IEnumerable<Review>, IEnumerable<ReviewDto>>(rev).ToList();
+        }
 
         public  IEnumerable<ReviewDto> GetReviewOfRooms(int Roomid)
         {
@@ -126,6 +141,20 @@ namespace Hotel_Management.ServiceImplementiton.Services.ReviewService
 
 
             return mapp.Map<IEnumerable<Review>, IEnumerable<ReviewDto>>(rev).ToList() ;
+        }
+        public IEnumerable<ReviewDto> GetReviewOfRoomswithspec(int Roomid, itemsQueryParam? param)
+        {
+            var reviewRepo = uow.GenerateRepo<Review, int>();
+            var spec = new ReviewSpecification(param);
+            var query = reviewRepo.GetAllSpecificationAsync(spec).ToList();
+
+            var review = reviewRepo.GetAllAsync();
+
+            var rev = review.Where(p => p.RoomID == Roomid);
+
+
+
+            return mapp.Map<IEnumerable<Review>, IEnumerable<ReviewDto>>(rev).ToList();
         }
 
         public async Task<int> updateReviewById(UpdateRoomReviewDto dto)
@@ -147,5 +176,6 @@ namespace Hotel_Management.ServiceImplementiton.Services.ReviewService
              reviewRepo.Update(z);
             return await uow.SaveChanges();
         }
+        
     }
 }

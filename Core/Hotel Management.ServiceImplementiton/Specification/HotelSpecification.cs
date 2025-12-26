@@ -10,21 +10,26 @@ namespace Hotel_Management.ServiceImplementiton.Specification
 {
     public class HotelSpecification : BaseSpecification<Hotel, int> 
     {
-        public HotelSpecification():base()
-     //: base(p =>
-         
-     //    (!string.IsNullOrEmpty(param.Name) || p.Name.ToLower().Contains(param.Name.ToLower()))
-     //    && (!string.IsNullOrEmpty(param.Location) || p.Location.ToLower().Contains(param.Location.ToLower()))
-     //    && (!param.Rate.HasValue || p.Rate==param.Rate)
-     //       )
-        {
+        public HotelSpecification(itemsQueryParam param)
+     : base(p =>
+        (string.IsNullOrEmpty(param.Name)
+            || p.Name.ToLower().Contains(param.Name.ToLower()))
 
-            //Addincludesfunc(p => p.Hotel_Features);
-            Addincludesfunc(p => p.Reviews);
-            //Addincludesfunc(p => p.HotelRooms);
-            //Addincludesfunc(p => p.Bookings);
-            //Addincludesfunc(p => p.Manager);
-           // Addincludesfunc(p => p.Photos);
+
+        && (string.IsNullOrEmpty(param.Location)
+            || p.Location.ToLower().Contains(param.Location.ToLower()))
+
+        && (!param.Rate.HasValue
+            || p.Rate == param.Rate)
+    )
+        {
+           
+            Addincludesfunc(p => p.Hotel_Features);
+        Addincludesfunc(p => p.Reviews);
+            Addincludesfunc(p => p.HotelRooms);
+           // Addincludesfunc(p => p.Bookings);
+            Addincludesfunc(p => p.Manager);
+            Addincludesfunc(p => p.Photos);
 
 
         }

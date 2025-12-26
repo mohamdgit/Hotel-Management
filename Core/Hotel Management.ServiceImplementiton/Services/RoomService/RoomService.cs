@@ -3,8 +3,10 @@ using Hotel_Management.DOMAIN.Contracts.IUow;
 using Hotel_Management.DOMAIN.Models.HotelModel;
 using Hotel_Management.DOMAIN.Models.RoomModel;
 using Hotel_Management.ServiceAbstraction.RoomService;
+using Hotel_Management.ServiceImplementiton.Specification;
 using Hotel_Management.Shared.DTOs.RoomDtos.Room;
 using Hotel_Management.Shared.DTOs.RoomDtos.RoomTypes;
+using Hotel_Management.Shared.ProductQueryParam;
 using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
@@ -90,10 +92,11 @@ namespace Hotel_Management.ServiceImplementiton.Services.RoomService
             throw new Exception("Room not found");
         }
 
-        public IEnumerable<RoomListDto> GtRoomsSpecification()
+        public IEnumerable<RoomListDto> GtRoomsSpecification(itemsQueryParam?param)
         {
             var repo = uow.GenerateRepo<Room, int>();
-            var rooms = repo.GetAllAsync().ToList();
+            var spec = new RoomSpecification(param);
+            var rooms = repo.GetAllSpecificationAsync(spec).ToList();
             if (rooms is not null)
             {
                 var MappRooms = map.Map<IEnumerable<Room>, IEnumerable<RoomListDto>>(rooms);

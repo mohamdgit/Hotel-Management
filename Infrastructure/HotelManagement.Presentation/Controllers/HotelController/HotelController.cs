@@ -21,7 +21,14 @@ namespace Hotel_Management.Presentation.Controllers.HotelController
            var res=  service.serviceOfHotel.GetallHotelsAsync();
             return Ok(res);
         }
-        [HttpGet("Gethotel/{Id}")]
+        [HttpGet("Spechotel")]
+
+        public ActionResult<IEnumerable<HotelDto>> GetallHotelswithspec(itemsQueryParam ?param)
+        {
+            var res = service.serviceOfHotel.GetallHotelspecAsync(param);
+            return Ok(res);
+        }
+        [HttpGet("Gethotel")]
 
         public async Task<ActionResult<HotelDto>> GetHotelByID(int Id)
         {
@@ -42,7 +49,7 @@ namespace Hotel_Management.Presentation.Controllers.HotelController
              var res = await service.serviceOfHotel.UpdateHotel(id,dto);
               return Ok(res);
          }
-        [HttpDelete("DeleteHotel{id}")]
+        [HttpDelete("DeleteHotel")]
 
         public async Task<ActionResult<int>> DeleteHotel(int id)
         {
