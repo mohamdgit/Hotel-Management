@@ -1,0 +1,30 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+	<PropertyGroup>
+		<TargetFramework>net9.0</TargetFramework>
+		<Nullable>enable</Nullable>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<RootNamespace>Hotel_Management</RootNamespace>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<!-- Entity Framework Core Tools -->
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="9.0.10">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+
+		<!-- Swagger / OpenAPI -->
+		<PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
+
+		<!-- JWT Authentication -->
+		<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="9.0.10" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<!-- Project References -->
+		<ProjectReference Include="..\Infrastructure\Hotel Management.Persistance\Hotel Management.Persistance.csproj" />
+		<ProjectReference Include="..\Infrastructure\HotelManagement.Presentation\HotelManagement.Presentation.csproj" />
+	</ItemGroup>
+
+</Project>
