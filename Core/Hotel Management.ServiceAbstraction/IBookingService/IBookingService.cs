@@ -14,8 +14,6 @@ namespace Hotel_Management.ServiceAbstraction.IBookingService
     {
         public IEnumerable<BookDto> GetallBookings();
         public IEnumerable<BookDto> GetallBookingspecfications(itemsQueryParam? param);
-
-
         public Task<BookDto> GetBookByIdAsync(int Id);
         public Task CancelBookAsync(int BookingId);
         public Task<int> AddBookAsync(AddBookDto dto);

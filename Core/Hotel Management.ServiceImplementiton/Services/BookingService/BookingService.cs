@@ -82,58 +82,6 @@ namespace Hotel_Management.ServiceImplementiton.Services.BookingService
             }
         }
 
-        protected async Task ConfirmBookAsync(int BookingId)
-        {
-            using var trans = await uow.BeginTransactionAsync(IsolationLevel.Serializable);
-
-            try
-            {
-                var bookrepo = uow.GenerateRepo<Book, int>();
-                itemsQueryParam? param = new itemsQueryParam();
-                param.BookId = BookingId;
-                var spec = new BookigSpecification(param);
-                var book =  bookrepo.GetAllSpecificationAsync(spec).FirstOrDefault();
-                if (book is null)
-                    throw new Exception("book is not found");
-
-                if (book.Bookstate != BookState.Pending)
-                    throw new Exception("book is not Avaliable Already");
-
-                var time = (DateTime.Now - book.Createdat).Hours;
-
-                if (book.BookPayment.PaymentState == PaymentState.done && time < 12)
-                {
-                    book.Bookstate = BookState.Confirmed;
-
-                    foreach (var item in book.RoomBooked)
-                    {
-                      
-                        if (item is null)
-                            throw new Exception($"Room {item} is not found");
-
-                        if (item.RoomState != State.pinding)
-                            throw new Exception($"Room {item} is not Avaliable Already");
-
-                        item.RoomState = State.Booked;
-                        
-                    }
-                }
-                else
-                {
-                    await CancelBookAsync(BookingId); 
-                    return;
-                }
-
-                bookrepo.Update(book);
-                await uow.SaveChanges();
-                await trans.CommitAsync();
-            }
-            catch (Exception ex)
-            {
-                await trans.RollbackAsync();
-                throw new Exception(ex.Message);
-            }
-        }
 
         public async Task CancelBookAsync(int BookingId)
         {
