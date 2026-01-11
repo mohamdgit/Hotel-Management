@@ -12,18 +12,33 @@ using Hotel_Management.Shared.DTOs.Hotel.HotelDtos;
 using Hotel_Management.Shared.DTOs.ReviewsDtos;
 using Hotel_Management.Shared.DTOs.RoomDtos.Room;
 using Hotel_Management.Shared.ProductQueryParam;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace Hotel_Management.ServiceImplementiton.Services.BookingService
 {
-    public class BookingService(IUow uow,IMapper map) : IBookingService
+    public class BookingService(IUow uow,IMapper map, IHttpContextAccessor _httpContextAccessor) : IBookingService
     {
+        private Guid GetuserId()
+        {
+            var user = _httpContextAccessor.HttpContext?.User;
 
+            if (user == null || !user.Identity.IsAuthenticated)
+                throw new UnauthorizedAccessException("User is not authenticated");
+
+            var userIdClaim = user.FindFirst(ClaimTypes.NameIdentifier);
+
+            if (userIdClaim == null)
+                throw new UnauthorizedAccessException("UserId not found in token");
+
+            return Guid.Parse(userIdClaim.Value);
+        }
         public async Task<int> AddBookAsync(AddBookDto dto)
         {
             using var trans = await uow.BeginTransactionAsync(IsolationLevel.Serializable);
@@ -136,6 +151,8 @@ namespace Hotel_Management.ServiceImplementiton.Services.BookingService
 
                 if (book.Bookstate != BookState.Pending)
                     throw new Exception("book is not Avaliable Already");
+                if(book.UserId!= GetuserId())
+                    throw new Exception("Not Allowed To You");
 
                 book.Bookstate = BookState.Cancelled;
 
@@ -185,12 +202,8 @@ namespace Hotel_Management.ServiceImplementiton.Services.BookingService
         {
             var reviewRepo = uow.GenerateRepo<Book, int>();
             var spec = new BookigSpecification(param);
-
             var books = reviewRepo.GetAllSpecificationAsync(spec);
-
-
-
-
+        
             return map.Map<IEnumerable<Book>, IEnumerable<BookDto>>(books).ToList();
         }
 
@@ -261,7 +274,7 @@ namespace Hotel_Management.ServiceImplementiton.Services.BookingService
                 throw;
             }
         }
-
        
+
     }
 }

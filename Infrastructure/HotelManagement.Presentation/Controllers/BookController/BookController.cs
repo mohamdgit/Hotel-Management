@@ -62,7 +62,7 @@ namespace Hotel_Management.Presentation.Controllers.BookController
             return Ok( result);
         }
 
-        [HttpPut("AddBook/{id}")]
+        [HttpPut("UpdateBook/{id}")]
         [Authorize(policy: "User")]
 
         public async Task<ActionResult<int>> UpdateBook(int id, [FromBody] AddBookDto dto)

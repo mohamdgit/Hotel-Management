@@ -49,7 +49,7 @@ namespace Hotel_Management.ServiceImplementiton.Services.ServiceManager
         private readonly Lazy<IRoomService> RoomServicelazy = new Lazy<IRoomService>(() => new RoomService.RoomService(uow, mapper, httpContext));
         public IRoomService RoomService => RoomServicelazy.Value;
 
-        private readonly Lazy<IBookingService> BookServicelazy = new Lazy<IBookingService>(() => new BookingService.BookingService(uow, mapper));
+        private readonly Lazy<IBookingService> BookServicelazy = new Lazy<IBookingService>(() => new BookingService.BookingService(uow, mapper, httpContext));
         public IBookingService BookService => BookServicelazy.Value;
         private readonly Lazy<IPaymentService> PaymentServicelazy = new Lazy<IPaymentService>(() => new PaymentService(configure, uow));
 
