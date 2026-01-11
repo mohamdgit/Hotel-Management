@@ -18,7 +18,8 @@ namespace Hotel_Management.ServiceImplementiton.Services.ReviewService
 {
     public class ReviewService(IUow uow,IMapper mapp) : IReviewService
     {
-       
+       //while making review use bookid 2004 ,hotelid3 ,roomid 1005 temporary
+       ///if you want to add you must complete booking and it relatrd with payment
         public async Task<int> AddHotelReview(CreateReviewforHotelDto dto)
         {
 
