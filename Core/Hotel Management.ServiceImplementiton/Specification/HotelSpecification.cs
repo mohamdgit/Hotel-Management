@@ -11,7 +11,8 @@ namespace Hotel_Management.ServiceImplementiton.Specification
     public class HotelSpecification : BaseSpecification<Hotel, int> 
     {
         public HotelSpecification(itemsQueryParam? param)
-     : base(p => param == null||(
+     : base(p => param != null
+     &&(
         (string.IsNullOrEmpty(param.Name)
             || p.Name.ToLower().Contains(param.Name.ToLower()))
 

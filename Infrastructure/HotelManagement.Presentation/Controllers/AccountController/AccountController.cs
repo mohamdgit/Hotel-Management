@@ -32,7 +32,7 @@ namespace Hotel_Management.Presentation.Controllers.AccountController
             return Ok(user);
         }
         [HttpGet("users")]
-        [Authorize]
+        [Authorize(policy:"SuperAdmin")]
         public  ActionResult<IEnumerable<UserDto>> GetUsersAsync()
         {
             var Authservice = service.serviceOfAuthentication;
@@ -41,7 +41,7 @@ namespace Hotel_Management.Presentation.Controllers.AccountController
             return Ok(users);
         }
         [HttpPost("assignrole")]
-        [Authorize(policy: "SuperAdminOnly")]
+        [Authorize(policy: "SuperAdmin")]
 
         public async Task<ActionResult<UserDto>> AssignRoleToUserAsync(string email,string role)
         {

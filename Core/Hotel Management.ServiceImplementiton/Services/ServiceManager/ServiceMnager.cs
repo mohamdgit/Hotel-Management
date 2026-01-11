@@ -28,12 +28,12 @@ namespace Hotel_Management.ServiceImplementiton.Services.ServiceManager
 
         private readonly Lazy<IAuthenticatonService> Authentication = new Lazy<IAuthenticatonService>(() => new AuthenticationService(user, role, configure));
         public IAuthenticatonService serviceOfAuthentication => Authentication.Value;
-        private readonly Lazy<IHotelFeatureService> HotelFeatureService = new Lazy<IHotelFeatureService>(() => new HotelFeatureservice(uow, hotelrepo,mapper));
+        private readonly Lazy<IHotelFeatureService> HotelFeatureService = new Lazy<IHotelFeatureService>(() => new HotelFeatureservice(uow, hotelrepo,mapper, httpContext));
         public IHotelFeatureService serviceOfHotelFeature => HotelFeatureService.Value;
         private readonly Lazy<IFeatureService> FeaturesService = new Lazy<IFeatureService>(() => new FeaturesService(uow, mapper));
         public IFeatureService serviceOfFeatures => FeaturesService.Value;
 
-        private readonly Lazy<IHotelService> HotelService = new Lazy<IHotelService>(() => new HotelService.HotelService(uow, mapper));
+        private readonly Lazy<IHotelService> HotelService = new Lazy<IHotelService>(() => new HotelService.HotelService(uow, mapper, httpContext));
         public IHotelService serviceOfHotel => HotelService.Value;
 
         private readonly Lazy<IReviewService> ReviewsService = new Lazy<IReviewService>(() => new ReviewService.ReviewService(uow, mapper));

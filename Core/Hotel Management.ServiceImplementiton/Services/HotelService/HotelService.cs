@@ -7,10 +7,12 @@ using Hotel_Management.Shared.DTOs.Hotel.Features;
 using Hotel_Management.Shared.DTOs.Hotel.HotelDtos;
 using Hotel_Management.Shared.DTOs.ReviewsDtos;
 using Hotel_Management.Shared.ProductQueryParam;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
@@ -21,29 +23,48 @@ namespace Hotel_Management.ServiceImplementiton.Services.HotelService
     {
         private readonly IUow uow;
         private readonly IMapper mapp;
+        private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly IPhotoRoomService photoservice;
 
-        public HotelService(IUow uow,IMapper mapp)
+        public HotelService(IUow uow,IMapper mapp,IHttpContextAccessor _httpContextAccessor)
         {
             this.uow = uow;
             this.mapp = mapp;
+            this._httpContextAccessor = _httpContextAccessor;
             this.photoservice = photoservice;
         }
         public async Task<int> AddHotelAsync(AddHotelDto hotel)
         {
             var repo = uow.GenerateRepo<Hotel, int>();
           var res=  mapp.Map<AddHotelDto, Hotel>(hotel);
-             await repo.Add(res);
-            return await uow.SaveChanges();
-        }
+            if (hotel.managerId== GetuserId())
+            {
+                await repo.Add(res);
 
+            }
+            else
+            {
+                throw new Exception("Not Allowed To You");
+            }
+                return await uow.SaveChanges();
+        }
+      
         public async Task<int> deleteHotel(int Id)
         {
             var repo = uow.GenerateRepo<Hotel, int>();
             var hotel = await repo.GetById(Id);
-         
+            var user = _httpContextAccessor.HttpContext?.User;
+
             
-             repo.Delete(Id); ;
+            if (hotel.managerId == GetuserId()|| GetuserRole() == "SuperAdmin")
+            {
+                repo.Delete(Id); ;
+
+            }
+            else
+            {
+                throw new Exception("Not Allowed To You");
+            }
             return await uow.SaveChanges();
         }
 
@@ -83,14 +104,48 @@ namespace Hotel_Management.ServiceImplementiton.Services.HotelService
             if(hotel is not null)
             {
                mapp.Map(dto, hotel); ;
+                if (hotel.managerId == GetuserId() )
+                {
+                    repo.Update(hotel); ;
 
-                repo.Update(hotel); ;
+                }
+                else
+                {
+                    throw new Exception("Not Allowed To You");
+                }
                 return await uow.SaveChanges();
 
             }
             throw new Exception("Hotel not found");
         }
-      
+        private Guid GetuserId()
+        {
+            var user = _httpContextAccessor.HttpContext?.User;
+
+            if (user == null || !user.Identity.IsAuthenticated)
+                throw new UnauthorizedAccessException("User is not authenticated");
+
+            var userIdClaim = user.FindFirst(ClaimTypes.NameIdentifier);
+
+            if (userIdClaim == null)
+                throw new UnauthorizedAccessException("UserId not found in token");
+
+            return Guid.Parse(userIdClaim.Value);
+        }
+        private string GetuserRole()
+        {
+            var user = _httpContextAccessor.HttpContext?.User;
+
+            if (user == null || !user.Identity.IsAuthenticated)
+                throw new UnauthorizedAccessException("User is not authenticated");
+
+            var userroleClaim = user.FindFirst(ClaimTypes.Role);
+
+            if (userroleClaim == null)
+                throw new UnauthorizedAccessException("UserId not found in token");
+
+            return userroleClaim.Value;
+        }
 
     }
 }

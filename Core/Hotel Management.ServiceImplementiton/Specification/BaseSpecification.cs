@@ -25,10 +25,7 @@ namespace Hotel_Management.ServiceImplementiton.Specification
         public Expression<Func<entity, object>> OrderByDesc { get; private set; }
 
         public List<Expression<Func<entity, object>>> includes { get; private set; } = [];
-        public int take { get; private set; }
-
-        public int skip { get; private set; }
-        public bool ispaginated { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+       
 
         public void Addincludesfunc(Expression<Func<entity, object>> Include)
         {

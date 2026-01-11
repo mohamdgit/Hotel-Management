@@ -15,9 +15,7 @@ namespace Hotel_Management.DOMAIN.Contracts.Ispecification
         public Expression<Func<entity, object>> OrderByDesc { get;  }
 
         public List<Expression<Func<entity, object>>> includes { get; }
-        public int take { get; }
-        public int skip { get; }
-        public bool ispaginated { get; set; }
+  
 
 
     }

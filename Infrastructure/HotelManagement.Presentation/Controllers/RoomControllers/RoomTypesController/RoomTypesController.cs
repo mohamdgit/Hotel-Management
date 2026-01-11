@@ -21,8 +21,8 @@ namespace Hotel_Management.Presentation.Controllers.RoomControllers.RoomTypesCon
        
 
         [HttpGet("Get")]
-        [Authorize(Policy = "AdminOnly")]
-        [Authorize(Policy = "SuperAdminOnly")]
+        [Authorize(Policy = "Admin")]
+        
         public ActionResult<IEnumerable< RoomTypeDto>> GetRoomTypes()
         {
             var types =  ServiceManager.RoomTypeService.GetRoomsType();

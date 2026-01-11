@@ -13,8 +13,8 @@ namespace Hotel_Management.Presentation.Controllers.Hotel.HotelFeaturesControlle
 {
     [ApiController]
     [Route("api/[Controller]")]
-    [Authorize(Policy = "AdminOnly")]
-    [Authorize(Policy = "SuperAdminOnly")]
+    [Authorize(Policy = "AdminOrSuperAdmin")]
+    
     public class HotelFeaturesController(IServiceManager service):ControllerBase
     {
             [HttpPost("AddHotelFeature")]

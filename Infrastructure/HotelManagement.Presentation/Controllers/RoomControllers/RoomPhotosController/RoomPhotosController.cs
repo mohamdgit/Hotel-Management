@@ -13,8 +13,7 @@ namespace Hotel_Management.Presentation.Controllers.RoomControllers.RoomPhotosCo
 {
     [Route("api/[Controller]")]
     [ApiController]
-    [Authorize(Policy = "AdminOnly")]
-    [Authorize(Policy = "SuperAdminOnly")]
+    [Authorize(Policy = "Admin")]
     public class RoomPhotosController : ControllerBase
     {
         private readonly IServiceManager service;

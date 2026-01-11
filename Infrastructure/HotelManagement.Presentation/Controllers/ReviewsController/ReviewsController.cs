@@ -2,6 +2,7 @@
 using Hotel_Management.Shared.DTOs.Hotel.HotelFeaturesDtos;
 using Hotel_Management.Shared.DTOs.ReviewsDtos;
 using Hotel_Management.Shared.ProductQueryParam;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -13,6 +14,7 @@ namespace Hotel_Management.Presentation.Controllers.ReviewsController
 {
     [ApiController]
     [Route("api/[Controller]")]
+    [Authorize(policy:"User")]
     public class ReviewsController(IServiceManager service):ControllerBase
     {
         [HttpPost("AddHotelReview")]
@@ -59,7 +61,7 @@ namespace Hotel_Management.Presentation.Controllers.ReviewsController
         }
         [HttpGet("HotelRevspec")]
 
-        public ActionResult<IEnumerable<ReviewDto>> GetReviewswithspec(int id,itemsQueryParam?param)
+        public ActionResult<IEnumerable<ReviewDto>> GetReviewswithspec(int id,[FromBody]itemsQueryParam?param)
         {
             var res = service.ReviewService.GetReviewOfHotelswithspec(id, param);
             return Ok(res);
@@ -73,7 +75,7 @@ namespace Hotel_Management.Presentation.Controllers.ReviewsController
         }
         [HttpGet("RoomRevspec")]
 
-        public ActionResult<IEnumerable<ReviewDto>> GetroomReviewswithspec(int id, itemsQueryParam? param)
+        public ActionResult<IEnumerable<ReviewDto>> GetroomReviewswithspec(int id, [FromBody] itemsQueryParam? param)
         {
             var res = service.ReviewService.GetReviewOfRoomswithspec(id, param);
             return Ok(res);

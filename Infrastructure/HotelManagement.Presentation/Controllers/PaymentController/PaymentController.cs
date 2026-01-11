@@ -14,7 +14,7 @@ namespace Hotel_Management.Presentation.Controllers.PaymentController
     [Route("api/[controller]")]
     public class PaymentController(IServiceManager serviceManager) : ControllerBase
     {
-        [Authorize]
+        [Authorize (policy:"User")]
         [HttpPost("{bookingId}")]
 
         public async Task<ActionResult<AddPaymentDto>> CreateOrUpdatePaymentIntent(int bookingId)

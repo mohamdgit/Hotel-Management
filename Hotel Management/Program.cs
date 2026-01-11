@@ -36,6 +36,8 @@ builder.Services.AddScoped<IServiceManager, ServiceMnager>();
 builder.Services.AddAutoMapper(cfg =>
 {
     cfg.AddProfile(new HotelProfile());
+    cfg.AddProfile(new ReviewProfile());
+
 });
 
 // Identity + JWT
@@ -66,11 +68,22 @@ builder.Services.AddAuthentication(options =>
 // Authorization Policies
 builder.Services.AddAuthorization(options =>
 {
-    options.AddPolicy("SuperAdminOnly", policy =>
+    options.AddPolicy("Admin", policy =>
+         policy.RequireClaim(ClaimTypes.Role, "Admin"));
+
+    options.AddPolicy("User", policy =>
+         policy.RequireClaim(ClaimTypes.Role, "User"));
+
+    options.AddPolicy("SuperAdmin", policy =>
         policy.RequireClaim(ClaimTypes.Role, "SuperAdmin"));
-    options.AddPolicy("AdminOnly", policy =>
-        policy.RequireClaim(ClaimTypes.Role, "Admin"));
+
+    options.AddPolicy("AdminOrSuperAdmin", policy =>
+        policy.RequireAssertion(context =>
+            context.User.IsInRole("Admin") ||
+            context.User.IsInRole("SuperAdmin")
+       ));
 });
+
 
 // Seeding & Helpers
 builder.Services.AddScoped<ISeeding, Seeding>();
@@ -99,63 +112,11 @@ builder.Services.Configure<ApiBehaviorOptions>(options =>
     };
 });
 
-// CORS
-builder.Services.AddCors(options =>
-{
-    options.AddPolicy("AllowAll", policy =>
-        policy.AllowAnyOrigin()
-              .AllowAnyMethod()
-              .AllowAnyHeader());
-});
 
-// Swagger
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen(c =>
-{
-    c.SwaggerDoc("v1", new OpenApiInfo { Title = "Hotel Management API", Version = "v1" });
 
-    var securityScheme = new OpenApiSecurityScheme
-    {
-        Name = "Authorization",
-        Description = "JWT Authorization header using the Bearer scheme. Example: \"Bearer {token}\"",
-        In = ParameterLocation.Header,
-        Type = SecuritySchemeType.ApiKey,
-        Scheme = "bearer",
-        BearerFormat = "JWT",
-        Reference = new OpenApiReference
-        {
-            Type = ReferenceType.SecurityScheme,
-            Id = "Bearer"
-        }
-    };
-
-    c.AddSecurityRequirement(new OpenApiSecurityRequirement
-    {
-        {
-            new OpenApiSecurityScheme
-            {
-                Reference = new OpenApiReference
-                {
-                    Type = ReferenceType.SecurityScheme,
-                    Id = "Bearer"
-                },
-                Scheme = "oauth2",
-                Name = "Bearer",
-                In = ParameterLocation.Header
-            },
-            new List<string>()
-        }
-    });
-});
 // -------------------- Build --------------------
 var app = builder.Build();
 
-if (app.Environment.IsDevelopment())
-{
-    app.UseCors("AllowAll");
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
 
 // Seeding users & roles
 using (var scope = app.Services.CreateScope())

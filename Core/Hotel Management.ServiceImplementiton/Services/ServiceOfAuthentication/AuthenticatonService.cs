@@ -59,7 +59,7 @@ namespace Hotel_Management.ServiceImplementiton.Services.ServiceOfAuthentication
                             IsBlocked=user.IsBlocked,
                             Email = user.Email,
                             UserName = user.UserName,
-                            Token = Createtoken(user)
+                            Token = await Createtoken(user)
                         };
                     }
                     else
@@ -163,7 +163,7 @@ This token is valid for a limited time."
                         Phonenumber = user.PhoneNumber,
                         Email = user.Email,
                         Age = user.Age,
-                        Token = Createtoken(user)
+                        Token = await Createtoken(user)
                     };
                 }
                 else
@@ -202,7 +202,7 @@ This token is valid for a limited time."
                     Phonenumber = user.PhoneNumber,
                     Email = user.Email,
                     IsBlocked = false,
-                    Token = Createtoken(user)
+                    Token = await Createtoken(user)
 
                 };
 
@@ -223,7 +223,7 @@ This token is valid for a limited time."
                 throw new Exception() ;
             }
         }
-        private string Createtoken(ApplicationUser user)
+        private async Task<string> Createtoken(ApplicationUser user)
         {
             var claim = new List<Claim>()
             {
@@ -233,7 +233,7 @@ This token is valid for a limited time."
 
 
             };
-            var userRoles = _userManager.GetRolesAsync(user).Result;
+            var userRoles = await _userManager.GetRolesAsync(user);
 
             foreach (var role in userRoles)
             {

@@ -13,11 +13,13 @@ namespace Hotel_Management.ServiceImplementiton.Specification
     {
         public RoomSpecification(itemsQueryParam? param)
     : base(p =>
-   (param == null || !param.RoomState.HasValue || p.RoomState == (State)param.RoomState.Value)
+        param != null
         &&
-        (param != null) &&
+       (!param.RoomState.HasValue || p.RoomState == (State)param.RoomState.Value)
+        &&
+        
          (!param.PricePerNight.HasValue || p.PricePerNight == param.PricePerNight)
-    &&
+        &&
          (!param.RoomId.HasValue || p.Id == param.RoomId)
     )
            

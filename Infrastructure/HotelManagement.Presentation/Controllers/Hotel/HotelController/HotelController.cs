@@ -24,7 +24,7 @@ namespace Hotel_Management.Presentation.Controllers.Hotel.HotelController
         }
         [HttpGet("Spechotel")]
 
-        public ActionResult<IEnumerable<HotelDto>> GetallHotelswithspec(itemsQueryParam ?param)
+        public ActionResult<IEnumerable<HotelDto>> GetallHotelswithspec([FromBody]itemsQueryParam ?param)
         {
             var res = service.serviceOfHotel.GetallHotelspecAsync(param);
             return Ok(res);
@@ -37,7 +37,7 @@ namespace Hotel_Management.Presentation.Controllers.Hotel.HotelController
             return Ok(res);
         }
         [HttpPost("AddHotel")]
-        [Authorize(Policy = "AdminOnly")]
+        [Authorize(Policy = "Admin")]
 
         public async Task<ActionResult<int>> AddHotel([FromBody] AddHotelDto hotel)
         {
@@ -45,7 +45,7 @@ namespace Hotel_Management.Presentation.Controllers.Hotel.HotelController
             return Ok(res);
         }
         [HttpPut("UpdateHotel/{id}")]
-        [Authorize(Policy = "AdminOnly")]
+        [Authorize(Policy = "Admin")]
 
         public async Task<ActionResult<int>> UpdateHotel( int id , [FromBody]  AddHotelDto dto)
          { 
@@ -53,8 +53,8 @@ namespace Hotel_Management.Presentation.Controllers.Hotel.HotelController
               return Ok(res);
          }
         [HttpDelete("DeleteHotel")]
-        [Authorize(Policy = "AdminOnly")]
-        [Authorize(Policy = "SuperAdminOnly")]
+        [Authorize(Policy = "AdminOrSuperAdmin")]
+        
 
         public async Task<ActionResult<int>> DeleteHotel(int id)
         {

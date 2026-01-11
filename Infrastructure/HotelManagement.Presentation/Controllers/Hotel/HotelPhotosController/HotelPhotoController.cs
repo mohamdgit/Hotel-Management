@@ -14,8 +14,7 @@ namespace Hotel_Management.Presentation.Controllers.Hotel.HotelPhotosController
 {
     [ApiController]
     [Route("api/[controller]")]
-    [Authorize(Policy = "AdminOnly")]
-    [Authorize(Policy = "SuperAdminOnly")]
+    [Authorize(Policy = "Admin")]
     public class HotelPhotoController : ControllerBase
     {
         private readonly IServiceManager service;
@@ -33,6 +32,7 @@ namespace Hotel_Management.Presentation.Controllers.Hotel.HotelPhotosController
                 return BadRequest("No file provided.");
 
             string folder = "images";
+
             var filename = await service.PhotoService.AddPhoto(folder, dto);
 
             string fileUrl = $"{filename}";
@@ -58,6 +58,7 @@ namespace Hotel_Management.Presentation.Controllers.Hotel.HotelPhotosController
                 return Ok("Deleted successfully.");
             return NotFound("File not found.");
         }
+
     }
 
 }

@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -17,6 +18,7 @@ namespace Hotel_Management.ServiceImplementiton.Services.HotelService
     {
         private readonly IUow uow;
         private readonly IMapper mapper;
+       
 
         public FeaturesService(IUow uow,IMapper mapper)
         {
@@ -38,5 +40,6 @@ namespace Hotel_Management.ServiceImplementiton.Services.HotelService
             var result = mapper.Map<IEnumerable<Feature>, IEnumerable<FeaturesDto>>(feature).ToList();
            return result;
         }
+        
     }
 }

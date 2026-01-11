@@ -13,7 +13,7 @@ namespace Hotel_Management.Presentation.Controllers.Hotel.FeaturesController
 {
     [ApiController]
     [Route("api/[Controller]")]
-    [Authorize(Policy = "SuperAdminOnly")]
+    [Authorize(Policy = "AdminOrSuperAdmin")]
     public class FeaturesController(IServiceManager service):ControllerBase
     {
         [HttpGet("GetFeature")]

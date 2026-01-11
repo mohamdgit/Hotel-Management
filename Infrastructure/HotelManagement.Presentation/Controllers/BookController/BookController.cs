@@ -4,6 +4,7 @@ using Hotel_Management.Shared.DTOs.BookDtos;
 using Hotel_Management.Shared.DTOs.BooksDtos;
 using Hotel_Management.Shared.DTOs.Hotel.HotelDtos;
 using Hotel_Management.Shared.ProductQueryParam;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -17,60 +18,65 @@ namespace Hotel_Management.Presentation.Controllers.BookController
     [Route("api/[controller]")]
     public class BookingsController : ControllerBase
     {
-        private readonly IBookingService _bookingService;
+        private readonly IServiceManager _bookingService;
 
-        public BookingsController(IBookingService bookingService)
+        public BookingsController(IServiceManager bookingService)
         {
             _bookingService = bookingService;
         }
 
-        // GET: api/bookings
         [HttpGet("GetBookings")]
+        [Authorize(policy: "Admin")]
         public ActionResult<IEnumerable<BookDto>> GetallBookings()
         {
-            var bookings = _bookingService.GetallBookings();
+            var bookings = _bookingService.BookService.GetallBookings();
             return Ok(bookings);
         }
 
-        // GET: api/bookings/{id}
         [HttpGet("bookings/{id}")]
+        [Authorize(policy: "Admin")]
+
         public async Task<ActionResult<BookDto>> GetBookByIdAsync(int id)
         {
-            var booking = await _bookingService.GetBookByIdAsync(id);
+            var booking = await _bookingService.BookService.GetBookByIdAsync(id);
             if (booking == null)
                 return NotFound();
             return Ok(booking);
         }
-        // GET: api/bookings/{id}
 
-        [HttpGet("specification/{id}")]
-        public  ActionResult<BookDto> GetBoospecification(itemsQueryParam?param)
+        [HttpGet("specification")]
+        [Authorize(policy:"Admin")]
+
+        public ActionResult<BookDto> GetBoospecification(itemsQueryParam?param)
         { 
-            var booking =  _bookingService.GetallBookingspecfications(param);
+            var booking =  _bookingService.BookService.GetallBookingspecfications(param);
         
             return Ok(booking);
         }
-        // POST: api/bookings
         [HttpPost("AddBook")]
+        [Authorize(policy: "User")]
+
         public async Task<ActionResult<int>> AddBookAsync([FromBody] AddBookDto dto)
         {
-            var result = await _bookingService.AddBookAsync(dto);
+            var result = await _bookingService.BookService.AddBookAsync(dto);
             return Ok( result);
         }
 
-        // PUT: api/bookings/{id}
         [HttpPut("AddBook/{id}")]
+        [Authorize(policy: "User")]
+
         public async Task<ActionResult<int>> UpdateBook(int id, [FromBody] AddBookDto dto)
         {
-            var result = await _bookingService.UpdateBook(id, dto);
+            var result = await _bookingService.BookService.UpdateBook(id, dto);
             return Ok(result);
         }
 
-        // SoftDELETE: api/bookings/{id}
         [HttpPost("DeleteBook/{BookingId}")]
+        [Authorize(policy: "User")]
+
         public async Task<ActionResult> DeleteBook(int BookingId)
         {
-           await _bookingService.CancelBookAsync(BookingId);
+           await _bookingService.BookService.CancelBookAsync(BookingId);
             return Ok();
         }
 

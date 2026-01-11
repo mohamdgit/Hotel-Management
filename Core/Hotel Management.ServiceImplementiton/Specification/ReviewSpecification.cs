@@ -13,6 +13,7 @@ namespace Hotel_Management.ServiceImplementiton.Specification
     {
         public ReviewSpecification(itemsQueryParam? param)
   : base(p =>
+  param != null&&
       ((!param.HotelId.HasValue) || p.Id == param.HotelId) &&
       ((!param.RoomId.HasValue) || p.RoomID == param.RoomId) &&
       ((!param.UserId.HasValue) || p.UserId == param.UserId)&&

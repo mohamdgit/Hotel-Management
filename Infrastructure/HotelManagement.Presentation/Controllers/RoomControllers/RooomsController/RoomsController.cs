@@ -26,7 +26,7 @@ public class RoomsController : ControllerBase
     }
 
     [HttpGet("specification")]
-    public ActionResult<IEnumerable< RoomListDto>> GetRoomsSpecification([FromQuery]itemsQueryParam?param)
+    public ActionResult<IEnumerable< RoomListDto>> GetRoomsSpecification([FromBody]itemsQueryParam?param)
     {
         var rooms = service.RoomService.GtRoomsSpecification(param);
         return Ok(rooms);
@@ -41,8 +41,7 @@ public class RoomsController : ControllerBase
 
     [HttpPost("Add")]
 
-    [Authorize(Policy = "AdminOnly")]
-    [Authorize(Policy = "SuperAdminOnly")]
+    [Authorize(Policy = "Admin")]
     public async Task<ActionResult<int>> AddRoom([FromBody] RoomCreateDto dto)
     {
         var result = await service.RoomService.AddRoom(dto);
@@ -53,8 +52,7 @@ public class RoomsController : ControllerBase
 
 
 [HttpPut("edit")]
-    [Authorize(Policy = "AdminOnly")]
-    [Authorize(Policy = "SuperAdminOnly")]
+    [Authorize(Policy = "Admin")]
     public async Task<ActionResult<int>> UpdateRoom([FromBody] RoomUpdateDto dto)
     {
         var result = await service.RoomService.updateRoom(dto);
@@ -62,8 +60,7 @@ public class RoomsController : ControllerBase
     }
 
     [HttpDelete("Delete/{id}")]
-    [Authorize(Policy = "AdminOnly")]
-    [Authorize(Policy = "SuperAdminOnly")]
+    [Authorize(Policy = "Admin")]
     public async Task<ActionResult<int>> DeleteRoom(int id)
     {
         var result = await service.RoomService.DeleteRoom(id);
